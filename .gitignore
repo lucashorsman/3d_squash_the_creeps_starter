@@ -1,0 +1,16 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+
+# Imported translations (if applicable)
+*.translation
+
+# Mono/C# builds (if using C# version)
+.mono/
+*.csproj
+*.sln
+
+# OS specific
+.DS_Store
+Thumbs.db
