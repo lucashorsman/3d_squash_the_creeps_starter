@@ -65,6 +65,7 @@ func _physics_process(delta):
 				# If so, we squash it and bounce.
 				mob.squash()
 				target_velocity.y = bounce_impulse
+				velocity.y = bounce_impulse
 				# Prevent further duplicate calls.
 				break
 			else:

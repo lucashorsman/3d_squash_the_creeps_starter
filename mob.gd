@@ -7,9 +7,6 @@ extends CharacterBody3D
 # The downward acceleration when in the air, in meters per second squared.
 @export var fall_acceleration = 75
 
-# Emitted when the player jumped on the mob
-signal squashed
-
 func _physics_process(delta):
 	# Apply gravity
 	if not is_on_floor():
@@ -20,7 +17,7 @@ func _physics_process(delta):
 # This function will be called from the Main scene.
 func initialize(start_position, player_position):
 	# We position the mob and turn it so that it looks at the player.
-	# Set Y to 0 to spawn on the ground
+	# Set Y to ground level (ground is at -4, add 1 for mob height)
 	start_position.y = -3
 	look_at_from_position(start_position, player_position, Vector3.UP)
 	# Rotate this mob randomly within range of -45 and +45 degrees,
@@ -39,5 +36,4 @@ func _on_visible_on_screen_notifier_3d_screen_exited():
 	queue_free()
 
 func squash():
-	squashed.emit()
 	queue_free()
