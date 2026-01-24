@@ -37,13 +37,6 @@ transform = Transform3D(-0.0068968, -0.9698295, 0.24368586, 0.8289343, 0.1307562
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("2_0xm2m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
-
-[node name="CameraPivot" type="Marker3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 31, 20)
-
-[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
-transform = Transform3D(1.0000001, -7.1342754e-10, 5.9604645e-08, -1.6424394e-08, 1, 7.783685e-08, 2.9802322e-08, 8.033332e-09, 1, 0, 0, 0)
 
 [node name="SpawnPath" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
@@ -58,6 +51,12 @@ autostart = true
 
 [node name="ScoreTimer" type="Timer" parent="."]
 autostart = true
+
+[node name="CameraPivot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 28, 20)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1.0000001, -7.1342754e-10, 5.9604645e-08, -1.6424394e-08, 1, 7.783685e-08, 2.9802322e-08, 8.033332e-09, 1, 0, 0, 0)
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]

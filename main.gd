@@ -45,5 +45,16 @@ func _on_score_timer_timeout():
 	print("Score: ", score)
 
 func _on_player_hit():
+	# Stop spawning new enemies
+	$MobTimer.stop()
+	$ScoreTimer.stop()
+	# Disable player control
+	$Player.set_physics_process(false)
+	
+	# Freeze all existing enemies
+	for mob in get_tree().get_nodes_in_group("mob"):
+		mob.set_physics_process(false)
+	
+	await get_tree().create_timer(1.2).timeout  # Match animation length
 	print("Game Over! Final Score: ", score)
 	get_tree().reload_current_scene()
