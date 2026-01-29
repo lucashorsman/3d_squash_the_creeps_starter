@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://okbe1y1tc5xt"
+path="res://.godot/imported/dual_kawase_down.glsl-d9504d80b87e41eac78c05a1d74559c3.res"
+
+[deps]
+
+source_file="res://addons/godot-dual-kawase-blur-compositor-effect/compute_shaders/dual_kawase_down.glsl"
+dest_files=["res://.godot/imported/dual_kawase_down.glsl-d9504d80b87e41eac78c05a1d74559c3.res"]
+
+[params]
+

@@ -1,10 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://ceuu150fmggvr"]
+[gd_scene load_steps=10 format=3 uid="uid://ceuu150fmggvr"]
 
 [ext_resource type="Script" uid="uid://cnd3r3qyfy5so" path="res://player.gd" id="1_onrkg"]
 [ext_resource type="PackedScene" uid="uid://d0ypm0v45pwdv" path="res://art/player.glb" id="2_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://wmf2eu0uuhrg" path="res://addons/third-person-camera/third_person_camera/ThirdPersonCamera.tscn" id="3_i3pqv"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_hqtel"]
-radius = 1.0
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i3pqv"]
 
 [sub_resource type="Animation" id="Animation_i3pqv"]
 length = 0.001
@@ -35,6 +35,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_hqtel"]
 resource_name = "death"
+length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -42,10 +43,10 @@ tracks/0/path = NodePath("Pivot/Character:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.36666667),
-"transitions": PackedFloat32Array(0.65975225, 5.6568522),
+"times": PackedFloat32Array(0.06666667, 0.33333334),
+"transitions": PackedFloat32Array(0.65975225, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 20, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 15, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -54,10 +55,10 @@ tracks/1/path = NodePath("Pivot/Character:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.46666667, 0.6333333, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0.06666667, 0.56666666, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(1.5707964, -3.3999014, 0), Vector3(1.5707964, -4.7996554, 0), Vector3(1.5707964, -4.0142574, 0), Vector3(1.5707964, -6.2831855, 0)]
+"values": [Vector3(1.2217305, 0, 0), Vector3(1.2217305, 0, 0), Vector3(1.2217305, -6.2831855, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_onrkg"]
@@ -107,14 +108,22 @@ script = ExtResource("1_onrkg")
 
 [node name="Character" parent="Pivot" instance=ExtResource("2_i3pqv")]
 
+[node name="ThirdPersonCamera" parent="Pivot/Character" instance=ExtResource("3_i3pqv")]
+distance_from_pivot = 11.09
+spring_arm_collision_mask = 4
+spring_arm_margin = 1.01
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_hqtel")
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.21731448, 0)
+shape = SubResource("CapsuleShape3D_i3pqv")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+deterministic = true
 libraries = {
 &"": SubResource("AnimationLibrary_hqtel")
 }
 autoplay = "float"
+playback_auto_capture_transition_type = 6
 
 [node name="MobDetector" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)

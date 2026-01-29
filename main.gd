@@ -2,11 +2,20 @@ extends Node
 
 @export var mob_scene: PackedScene
 @export var min_spawn_distance = 5.0
+@export var camera_follow_speed = 5.0
 
 var score = 0
 
 func _ready():
 	$Player.hit.connect(_on_player_hit)
+
+func _process(delta):
+	# Make camera follow player smoothly
+	var target_position = $Player.position
+	var current_position = $CameraPivot.position
+	
+	# Smoothly interpolate camera position towards player
+	$CameraPivot.position = current_position.lerp(target_position, camera_follow_speed * delta)
 	
 
 func _on_mob_timer_timeout():
@@ -55,6 +64,6 @@ func _on_player_hit():
 	for mob in get_tree().get_nodes_in_group("mob"):
 		mob.set_physics_process(false)
 	
-	await get_tree().create_timer(1.2).timeout  # Match animation length
+	await get_tree().create_timer(1.8).timeout  # Match animation length
 	print("Game Over! Final Score: ", score)
 	get_tree().reload_current_scene()
