@@ -12,10 +12,9 @@ func _ready():
 func _process(delta):
 	# Make camera follow player smoothly
 	var target_position = $Player.position
-	var current_position = $CameraPivot.position
+
 	
-	# Smoothly interpolate camera position towards player
-	$CameraPivot.position = current_position.lerp(target_position, camera_follow_speed * delta)
+	# Smoothly interpolate camera position towards player	$CameraPivot.position = current_position.lerp(target_position, camera_follow_speed * delta)
 	
 
 func _on_mob_timer_timeout():
@@ -34,7 +33,7 @@ func _on_mob_timer_timeout():
 	while attempts < max_attempts:
 		mob_spawn_location.progress_ratio = randf()
 		spawn_position = mob_spawn_location.position
-		spawn_position.y = -3 # Ensure spawn position is on ground
+		spawn_position.y = 1  # Ensure spawn position is on ground
 		
 		# Check distance to player (only X and Z, ignore Y)
 		var distance = Vector2(spawn_position.x - player_position.x, spawn_position.z - player_position.z).length()

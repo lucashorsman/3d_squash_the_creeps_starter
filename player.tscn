@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://ceuu150fmggvr"]
+[gd_scene load_steps=9 format=3 uid="uid://ceuu150fmggvr"]
 
 [ext_resource type="Script" uid="uid://cnd3r3qyfy5so" path="res://player.gd" id="1_onrkg"]
 [ext_resource type="PackedScene" uid="uid://d0ypm0v45pwdv" path="res://art/player.glb" id="2_i3pqv"]
-[ext_resource type="PackedScene" uid="uid://wmf2eu0uuhrg" path="res://addons/third-person-camera/third_person_camera/ThirdPersonCamera.tscn" id="3_i3pqv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i3pqv"]
 
@@ -46,7 +45,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0.06666667, 0.33333334),
 "transitions": PackedFloat32Array(0.65975225, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 15, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 3, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -100,18 +99,13 @@ _data = {
 height = 0.2
 radius = 1.2
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["player"]]
 collision_mask = 6
 script = ExtResource("1_onrkg")
 
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="Character" parent="Pivot" instance=ExtResource("2_i3pqv")]
-
-[node name="ThirdPersonCamera" parent="Pivot/Character" instance=ExtResource("3_i3pqv")]
-distance_from_pivot = 11.09
-spring_arm_collision_mask = 4
-spring_arm_margin = 1.01
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.21731448, 0)

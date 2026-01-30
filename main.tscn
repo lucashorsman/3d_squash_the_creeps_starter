@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://2wap0283yk0r"]
+[gd_scene load_steps=12 format=3 uid="uid://2wap0283yk0r"]
 
 [ext_resource type="Script" uid="uid://ct3tiq870tjca" path="res://main.gd" id="1_i2q0p"]
 [ext_resource type="PackedScene" uid="uid://ceuu150fmggvr" path="res://player.tscn" id="2_0xm2m"]
@@ -10,10 +10,11 @@ panorama = ExtResource("3_1bvp3")
 
 [sub_resource type="Sky" id="Sky_7mycd"]
 sky_material = SubResource("PanoramaSkyMaterial_lquwl")
-radiance_size = 1
+radiance_size = 0
 
 [sub_resource type="Environment" id="Environment_272bh"]
 background_mode = 2
+background_energy_multiplier = 0.87
 sky = SubResource("Sky_7mycd")
 sky_custom_fov = 93.5
 sky_rotation = Vector3(-3.6215582, 0, 0)
@@ -21,22 +22,17 @@ ambient_light_source = 1
 ambient_light_energy = 0.0
 reflected_light_source = 1
 tonemap_mode = 2
-ssao_enabled = true
-sdfgi_enabled = true
-glow_enabled = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
 size = Vector3(60, 2, 60)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h2yge"]
-albedo_color = Color(0.06666667, 1, 1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvp3"]
+albedo_color = Color(0.39308554, 0.3930855, 0.39308548, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1bvp3"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
-lightmap_size_hint = Vector2i(604, 326)
-material = SubResource("ShaderMaterial_1bvp3")
+[sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
+material = SubResource("StandardMaterial3D_1bvp3")
 size = Vector3(60, 2, 60)
+subdivide_height = 1
 
 [sub_resource type="Curve3D" id="Curve3D_i2q0p"]
 _data = {
@@ -61,14 +57,16 @@ collision_mask = 0
 shape = SubResource("BoxShape3D_7dm0k")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-material_override = SubResource("StandardMaterial3D_h2yge")
-mesh = SubResource("BoxMesh_0xm2m")
+mesh = SubResource("BoxMesh_lquwl")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.76451296, -0.5025179, -0.40372708, 0.32046622, -0.83972794, 0.43835932, -0.5593041, 0.20575057, 0.803023, 22.365108, 25, 0)
+transform = Transform3D(-0.8214049, -0.26805773, -0.5034261, 0.11167627, -0.9411764, 0.3189302, -0.55930436, 0.20575011, 0.80302274, 22.365108, 25, 0)
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("2_0xm2m")]
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.2588191, 0, -0.2588191, 0.9659258, 0, 7.22042, 9)
 
 [node name="SpawnPath" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44951034, 0)
@@ -78,17 +76,10 @@ curve = SubResource("Curve3D_i2q0p")
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -14, 0, -14)
 
 [node name="MobTimer" type="Timer" parent="."]
-wait_time = 4096.0
 autostart = true
 
 [node name="ScoreTimer" type="Timer" parent="."]
 autostart = true
-
-[node name="CameraPivot" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 28, 20)
-
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(1, -3.1255755e-08, -5.5287902e-08, 5.7097417e-08, 0.82365155, 0.56709635, 2.7812943e-08, -0.56709635, 0.82365155, 0, 7.883219, -7.883217)
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
