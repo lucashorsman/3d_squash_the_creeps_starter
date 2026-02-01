@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://2wap0283yk0r"]
+[gd_scene format=3 uid="uid://2wap0283yk0r"]
 
 [ext_resource type="Script" uid="uid://ct3tiq870tjca" path="res://main.gd" id="1_i2q0p"]
 [ext_resource type="PackedScene" uid="uid://ceuu150fmggvr" path="res://player.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://bxk87h3yn8qy0" path="res://mob.tscn" id="2_h2yge"]
 [ext_resource type="Texture2D" uid="uid://caialpklf52gg" path="res://art/galaxy-space-textured-background.jpg" id="3_1bvp3"]
+[ext_resource type="FontFile" uid="uid://cikhaab70hx2s" path="res://fonts/Kenney Future.ttf" id="5_lquwl"]
+[ext_resource type="Texture2D" uid="uid://dcdfmk88nmv7t" path="res://art/clock.png" id="6_7mycd"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lquwl"]
 panorama = ExtResource("3_1bvp3")
@@ -24,14 +26,14 @@ reflected_light_source = 1
 tonemap_mode = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
-size = Vector3(60, 2, 60)
+size = Vector3(200, 2, 200)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvp3"]
 albedo_color = Color(0.39308554, 0.3930855, 0.39308548, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
 material = SubResource("StandardMaterial3D_1bvp3")
-size = Vector3(60, 2, 60)
+size = Vector3(200, 2, 200)
 subdivide_height = 1
 
 [sub_resource type="Curve3D" id="Curve3D_i2q0p"]
@@ -41,45 +43,111 @@ _data = {
 }
 point_count = 5
 
-[node name="Main" type="Node"]
+[sub_resource type="LabelSettings" id="LabelSettings_7mycd"]
+font = ExtResource("5_lquwl")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7mycd"]
+bg_color = Color(0, 0, 0, 0.53333336)
+corner_radius_top_left = 180
+corner_radius_bottom_right = 180
+corner_detail = 13
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_272bh"]
+bg_color = Color(0.076583914, 0.46973437, 0.72871995, 1)
+corner_radius_top_left = 180
+corner_radius_bottom_right = 180
+
+[node name="Main" type="Node" unique_id=597866549]
 script = ExtResource("1_i2q0p")
 mob_scene = ExtResource("2_h2yge")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1968087309]
 environment = SubResource("Environment_272bh")
 
-[node name="Ground" type="StaticBody3D" parent="."]
+[node name="Ground" type="StaticBody3D" parent="." unique_id=554441365]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.7795801, 0)
 collision_layer = 4
 collision_mask = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=361245996]
+visible = false
 shape = SubResource("BoxShape3D_7dm0k")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1473857361]
 mesh = SubResource("BoxMesh_lquwl")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1957930455]
 transform = Transform3D(-0.8214049, -0.26805773, -0.5034261, 0.11167627, -0.9411764, 0.3189302, -0.55930436, 0.20575011, 0.80302274, 22.365108, 25, 0)
 shadow_enabled = true
 
-[node name="Player" parent="." instance=ExtResource("2_0xm2m")]
+[node name="Player" parent="." unique_id=370706727 instance=ExtResource("2_0xm2m")]
+dash_duration = 0.305
+dash_cooldown = 0.785
 
-[node name="Camera3D" type="Camera3D" parent="Player"]
+[node name="Camera3D" type="Camera3D" parent="Player" unique_id=1257396475]
 transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.2588191, 0, -0.2588191, 0.9659258, 0, 7.22042, 9)
 
-[node name="SpawnPath" type="Path3D" parent="."]
+[node name="SpawnPath" type="Path3D" parent="." unique_id=1160707129]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44951034, 0)
 curve = SubResource("Curve3D_i2q0p")
 
-[node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
+[node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath" unique_id=2143862120]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -14, 0, -14)
 
-[node name="MobTimer" type="Timer" parent="."]
+[node name="MobTimer" type="Timer" parent="." unique_id=1972830951]
 autostart = true
 
-[node name="ScoreTimer" type="Timer" parent="."]
+[node name="ScoreTimer" type="Timer" parent="." unique_id=155048365]
 autostart = true
+
+[node name="UserInterface" type="Control" parent="." unique_id=888117938]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Clock" type="Sprite2D" parent="UserInterface" unique_id=1524509944]
+position = Vector2(1015.99994, 134.00002)
+scale = Vector2(10, 10)
+texture = ExtResource("6_7mycd")
+
+[node name="ScoreLabel" type="Label" parent="UserInterface" unique_id=1159669053]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 244.0
+offset_top = 136.0
+offset_right = 444.0
+offset_bottom = 176.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+theme_override_font_sizes/font_size = 32
+text = "0"
+label_settings = SubResource("LabelSettings_7mycd")
+horizontal_alignment = 1
+
+[node name="DashFuelGauge" type="ProgressBar" parent="UserInterface" unique_id=1234567890]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 366.99994
+offset_top = -397.0
+offset_right = 467.0
+offset_bottom = -382.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.575, 1.575)
+theme_override_styles/background = SubResource("StyleBoxFlat_7mycd")
+theme_override_styles/fill = SubResource("StyleBoxFlat_272bh")
+step = 1.0
+show_percentage = false
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]

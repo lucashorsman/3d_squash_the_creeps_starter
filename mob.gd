@@ -23,6 +23,11 @@ func _physics_process(delta):
 			var direction = (player.global_position - global_position)
 			direction.y = 0
 			direction = direction.normalized()
+			
+			# Add randomness to direction
+			var random_angle = randf_range(-0.3, 0.3)
+			direction = direction.rotated(Vector3.UP, random_angle)
+			
 			velocity.x = direction.x * mob_speed
 			velocity.z = direction.z * mob_speed
 			

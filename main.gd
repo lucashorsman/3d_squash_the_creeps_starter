@@ -5,11 +5,15 @@ extends Node
 @export var camera_follow_speed = 5.0
 
 var score = 0
+var time_elapsed = 0.0
 
 func _ready():
 	$Player.hit.connect(_on_player_hit)
 
 func _process(delta):
+	# Update time
+	time_elapsed += delta
+	
 	# Make camera follow player smoothly
 	var target_position = $Player.position
 
@@ -50,7 +54,7 @@ func _on_mob_timer_timeout():
 
 func _on_score_timer_timeout():
 	score += 1
-	print("Score: ", score)
+	$UserInterface/ScoreLabel.text = str(score)
 
 func _on_player_hit():
 	# Stop spawning new enemies
