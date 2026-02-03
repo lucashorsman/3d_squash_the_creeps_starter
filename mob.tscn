@@ -1,24 +1,80 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxk87h3yn8qy0"]
+[gd_scene format=3 uid="uid://bxk87h3yn8qy0"]
 
 [ext_resource type="Script" uid="uid://b87gnbbc8qgju" path="res://mob.gd" id="1_i2q0p"]
 [ext_resource type="PackedScene" uid="uid://bicorb7we351t" path="res://art/mob.glb" id="2_i2q0p"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i2q0p"]
-size = Vector3(2, 2, 2)
+size = Vector3(2, 1.0059814, 2)
 
-[node name="Mob" type="CharacterBody3D" groups=["mob"]]
+[sub_resource type="Animation" id="Animation_RESET"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_squash"]
+resource_name = "squash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1.5, 0.2, 1.5), Vector3(1.5, 0.05, 1.5)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mob"]
+_data = {
+&"RESET": SubResource("Animation_RESET"),
+&"squash": SubResource("Animation_squash")
+}
+
+[node name="Mob" type="CharacterBody3D" unique_id=1975503418 groups=["mob"]]
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_i2q0p")
 
-[node name="Pivot" type="Node3D" parent="."]
+[node name="Pivot" type="Node3D" parent="." unique_id=1391614271]
 
-[node name="Character" parent="Pivot" instance=ExtResource("2_i2q0p")]
+[node name="Character" parent="Pivot" unique_id=2054320707 instance=ExtResource("2_i2q0p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.10042238, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=170374890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5029907, 0)
 shape = SubResource("BoxShape3D_i2q0p")
 
-[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1371122909]
+libraries/ = SubResource("AnimationLibrary_mob")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="." unique_id=38631787]
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]

@@ -57,4 +57,7 @@ func _on_visible_on_screen_notifier_3d_screen_exited():
 	queue_free()
 
 func squash():
-	queue_free()
+	$AnimationPlayer.play("squash")
+	# Disable collision to prevent further interactions
+	$CollisionShape3D.disabled = true
+	set_physics_process(false)

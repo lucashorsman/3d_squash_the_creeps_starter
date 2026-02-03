@@ -2,7 +2,7 @@ extends Node
 
 @export var mob_scene: PackedScene
 @export var min_spawn_distance = 5.0
-@export var camera_follow_speed = 5.0
+@export var hoop_scene: PackedScene
 
 var score = 0
 var time_elapsed = 0.0
@@ -17,16 +17,21 @@ func _process(delta):
 	# Make camera follow player smoothly
 	var target_position = $Player.position
 
+	print("player Y: ")
+	print($Player.position.y)
 	
-	# Smoothly interpolate camera position towards player	$CameraPivot.position = current_position.lerp(target_position, camera_follow_speed * delta)
-	
+
+
+func _on_hoop_timer_timeout():
+		var hoop = hoop_scene.instantiate()
+
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
 
 	# Choose a random location on the SpawnPath.
-	var mob_spawn_location = $SpawnPath/SpawnLocation
+	var mob_spawn_location = $MobSpawnPath/SpawnLocation
 	var player_position = $Player.position
 	
 	# Keep trying random positions until we find one far enough from the player
@@ -55,6 +60,7 @@ func _on_mob_timer_timeout():
 func _on_score_timer_timeout():
 	score += 1
 	$UserInterface/ScoreLabel.text = str(score)
+	
 
 func _on_player_hit():
 	# Stop spawning new enemies

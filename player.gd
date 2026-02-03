@@ -19,6 +19,8 @@ var dash_direction = Vector3.ZERO
 var dash_locked_y = 0.0  # Y position when dash started
 
 var target_velocity = Vector3.ZERO
+@onready var bounce_sound = $BounceSound
+@onready var dash_sound = $DashSound
 
 func _ready():
 	# Get reference to the dash fuel gauge
@@ -58,6 +60,7 @@ func _physics_process(delta):
 			dash_cooldown_timer = dash_cooldown
 			dash_direction = direction.normalized()
 			dash_locked_y = position.y  # Lock current Y position
+			dash_sound.play()
 	
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		target_velocity.y = jump_impulse
@@ -127,6 +130,9 @@ func _physics_process(delta):
 				# If so, we squash it and bounce.
 				mob.squash()
 				target_velocity.y = bounce_impulse
+				# Play bounce sound
+				bounce_sound.play()
+				print("Bounced on mob! play was called.")
 				# Cancel dash on bounce to allow vertical movement
 				is_dashing = false
 				dash_timer = 0.0
