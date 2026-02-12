@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://c7v8xax0y102"]
+
+[ext_resource type="Script" uid="uid://cq583ox70b1lw" path="res://score_popup.gd" id="1_score_popup"]
+
+[sub_resource type="Animation" id="Animation_float_fade"]
+resource_name = "float_and_fade"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.6, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label3D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Label3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.5, 0.5, 0.5), Vector3(1.4, 1.4, 1.4), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1"]
+_data = {
+&"float_and_fade": SubResource("Animation_float_fade")
+}
+
+[node name="ScorePopup" type="Node3D" unique_id=1354992034]
+script = ExtResource("1_score_popup")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=129179934]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+billboard = 1
+no_depth_test = true
+fixed_size = true
+texture_filter = 0
+font_size = 48
+outline_size = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1715079847]
+libraries/ = SubResource("AnimationLibrary_1")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

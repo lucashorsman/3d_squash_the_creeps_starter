@@ -1,30 +1,59 @@
 [gd_scene format=3 uid="uid://dw8d4tb1gxewx"]
 
 [ext_resource type="PackedScene" uid="uid://bc1831l5w0e15" path="res://Smashing Elzing-Wluff.glb" id="1_jgnly"]
-[ext_resource type="Texture2D" uid="uid://egr7qfe18tq2" path="res://art/drill.png" id="2_8whfh"]
+[ext_resource type="Texture2D" uid="uid://egr7qfe18tq2" path="res://art/Textures/drill.png" id="2_8whfh"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5kjeu"]
 points = PackedVector3Array(0, 0, 0, 2, 4, 2, 2, 4, -2, -2, 4, 2, -2, 4, -2, 0, 8, 0)
+
+[sub_resource type="Animation" id="Animation_8whfh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:uv1_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_uvscroll"]
 resource_name = "uv_scroll"
 length = 10.0
 loop_mode = 1
+capture_included = true
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:surface_0/material:uv1_offset")
+tracks/0/path = NodePath("MeshInstance3D:material_override")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 10),
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 2,
+"values": []
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:mesh:material:uv1_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(-0.19999999, 9.966666),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(4.485, -3.18, 0), Vector3(14.485, 6.82, 0)]
+"values": [Vector3(1, 1, 1), Vector3(900, 900, 900)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uvlib"]
 _data = {
+&"RESET": SubResource("Animation_8whfh"),
 &"uv_scroll": SubResource("Animation_uvscroll")
 }
 
@@ -45,7 +74,6 @@ next_pass = SubResource("StandardMaterial3D_gcmwr")
 albedo_texture = ExtResource("2_8whfh")
 rim = 0.25
 rim_tint = 0.0
-uv1_offset = Vector3(4.485, -3.18, 0)
 texture_filter = 0
 stencil_mode = 1
 stencil_flags = 2

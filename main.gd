@@ -9,6 +9,7 @@ var time_elapsed = 0.0
 
 func _ready():
 	$Player.hit.connect(_on_player_hit)
+	$Player.score_earned.connect(_on_player_score_earned)
 
 func _process(delta):
 	# Update time
@@ -17,8 +18,8 @@ func _process(delta):
 	# Make camera follow player smoothly
 	var target_position = $Player.position
 
-	print("player Y: ")
-	print($Player.position.y)
+	#print("player Y: ")
+	#print($Player.position.y)
 	
 
 
@@ -56,6 +57,19 @@ func _on_mob_timer_timeout():
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+
+func _on_player_score_earned(amount: int):
+	# Add the combo score to the total
+	score += amount
+	$UserInterface/ScoreLabel.text = str(score)
+	
+	# Update combo display
+	var combo_count = $Player.combo_count
+	if combo_count > 1:
+		$UserInterface/ComboLabel.text = "COMBO x%d" % combo_count
+		$UserInterface/ComboLabel.visible = true
+	else:
+		$UserInterface/ComboLabel.visible = false
 
 func _on_score_timer_timeout():
 	score += 1

@@ -2,8 +2,6 @@
 
 [ext_resource type="Script" uid="uid://cnd3r3qyfy5so" path="res://player.gd" id="1_onrkg"]
 [ext_resource type="PackedScene" uid="uid://d0ypm0v45pwdv" path="res://art/player.glb" id="2_i3pqv"]
-[ext_resource type="AudioStream" uid="uid://bhqdd30f7luj6" path="res://art/sound/SHOThitHurt.wav" id="3_hqtel"]
-[ext_resource type="AudioStream" uid="uid://b455fkmpoi6hj" path="res://art/sound/dash.wav" id="4_dash"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_trail"]
 lifetime_randomness = 0.38
@@ -159,10 +157,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18503761, 0)
 shape = SubResource("CylinderShape3D_onrkg")
 
 [node name="BounceSound" type="AudioStreamPlayer" parent="." unique_id=593356528]
-stream = ExtResource("3_hqtel")
-volume_db = 3.0
+volume_db = -12.465
 
 [node name="DashSound" type="AudioStreamPlayer" parent="." unique_id=25746662]
-stream = ExtResource("4_dash")
+pitch_scale = 0.27
 
 [connection signal="hit" from="." to="." method="_on_hit"]

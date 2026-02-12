@@ -2,33 +2,67 @@ extends CharacterBody3D
 
 # Emitted when the player was hit by a mob.
 signal hit
+# Emitted when the player earns score from bouncing on mobs
+signal score_earned(amount: int)
 
 # How fast the player moves in meters per second.
 @export var speed = 14
 # The downward acceleration when in the air, in meters per second squared.
 @export var fall_acceleration = 75
 @export var jump_impulse = 20
-@export var bounce_impulse = 16
-@export var dash_speed = 30  # Speed multiplier during dash
+@export var bounce_impulse = 20
+@export var dash_speed = 35  # Speed multiplier during dash
 @export var dash_duration = 0.2  # How long the dash lasts in seconds
 @export var dash_cooldown = 1.0  # Cooldown time in seconds
+# Movement feel parameters
+@export var acceleration = 8.0  # How fast player reaches max speed
+@export var friction = 12.0  # How fast player stops
+@export var air_control = 0.3  # Control while airborne (0.0-1.0)
+@export var rotation_speed = 12.0  # How fast player turns
+# Camera parameters
+@export var base_fov = 75.0
+@export var max_fov = 90.0
+@export var fov_speed = 5.0
+@export var camera_tilt_amount = 0.15
+@export var trauma_decay = 2.0
+@export var max_shake_offset = 0.3
+@export var max_shake_rotation = 0.1
+var camera_trauma = 0.0
 @export var is_dashing = false
 var dash_timer = 0.0
 var dash_cooldown_timer = 0.0
 var dash_direction = Vector3.ZERO
 var dash_locked_y = 0.0  # Y position when dash started
 
+# Combo system variables
+var combo_count = 0
+var combo_timer = 0.0
+@export var max_combo_time = 2.0
+@export var score_popup_scene: PackedScene
+
 var target_velocity = Vector3.ZERO
 @onready var bounce_sound = $BounceSound
 @onready var dash_sound = $DashSound
+@onready var camera = get_node_or_null("Camera3D")
 
 func _ready():
 	# Get reference to the dash fuel gauge
 	update_dash_gauge()
+	# Debug camera
+	if camera:
+		print("Camera found: ", camera.name)
+	else:
+		print("WARNING: Camera not found!")
 
 func _physics_process(delta):
 	# We create a local variable to store the input direction.
 	var direction = Vector3.ZERO
+	
+	# Update combo timer
+	if combo_timer > 0:
+		combo_timer -= delta
+		if combo_timer <= 0:
+			combo_count = 0  # Reset combo when timer expires
 	
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
@@ -87,14 +121,16 @@ func _physics_process(delta):
 		if direction != Vector3.ZERO:
 			direction = direction.normalized()
 			movement_direction = direction
-			# Setting the basis property will affect the rotation of the node.
-			$Pivot.basis = Basis.looking_at(direction)
-			$AnimationPlayer.speed_scale = 4
-		else:
-			$AnimationPlayer.speed_scale = 1		
-	# Ground Velocity
-	target_velocity.x = movement_direction.x * current_speed
-	target_velocity.z = movement_direction.z * current_speed
+			# Smooth rotation instead of instant snap
+			var target_basis = Basis.looking_at(direction)
+			$Pivot.basis = $Pivot.basis.slerp(target_basis, rotation_speed * delta)
+		
+	# Apply air control factor
+	var control_factor = 1.0 if is_on_floor() else air_control
+	
+	# Ground Velocity with acceleration
+	target_velocity.x = movement_direction.x * current_speed * control_factor
+	target_velocity.z = movement_direction.z * current_speed * control_factor
 
 	# Vertical Velocity
 	if not is_on_floor() and not is_dashing: # If in the air, fall towards the floor. Literally gravity
@@ -104,8 +140,22 @@ func _physics_process(delta):
 	if is_dashing:
 		target_velocity.y = 0
 		
-	# Moving the Character
-	velocity = target_velocity
+	# Moving the Character with smooth acceleration/deceleration
+	if not is_dashing:
+		if movement_direction != Vector3.ZERO:
+			# Accelerate towards target velocity
+			velocity.x = lerp(velocity.x, target_velocity.x, acceleration * delta)
+			velocity.z = lerp(velocity.z, target_velocity.z, acceleration * delta)
+		else:
+			# Apply friction when no input
+			velocity.x = lerp(velocity.x, 0.0, friction * delta)
+			velocity.z = lerp(velocity.z, 0.0, friction * delta)
+		# Keep vertical velocity direct
+		velocity.y = target_velocity.y
+	else:
+		# During dash, use direct velocity for tight control
+		velocity = target_velocity
+	
 	move_and_slide()
 	
 	# Lock Y position during dash (after physics)
@@ -113,6 +163,17 @@ func _physics_process(delta):
 		position.y = dash_locked_y
 	
 	$Pivot.rotation.x = PI / 6 * velocity.y / jump_impulse
+	
+	# Speed-based animation - use actual velocity
+	var horizontal_speed = Vector2(velocity.x, velocity.z).length()
+	if not is_dashing:
+		if horizontal_speed > 0.1:
+			$AnimationPlayer.speed_scale = 1.0 + (horizontal_speed / speed) * 3.0
+		else:
+			$AnimationPlayer.speed_scale = 1.0
+	
+	# Dynamic camera effects
+	update_camera(delta, horizontal_speed)
 	
 	# Iterate through all collisions that occurred this frame
 	for index in range(get_slide_collision_count()):
@@ -127,12 +188,28 @@ func _physics_process(delta):
 			var mob = collision.get_collider()
 			# we check that we are hitting it from above.
 			if Vector3.UP.dot(collision.get_normal()) > 0.1:
+				# Increment combo
+				combo_count += 1
+				combo_timer = max_combo_time
+				
+				# Calculate score based on combo
+				var score_value = calculate_score(combo_count)
+				
+				# Spawn floating score text
+				spawn_score_popup(mob.global_position, score_value, combo_count)
+				
+				# Emit score to main scene
+				score_earned.emit(score_value)
+				
+				# Add camera shake based on combo
+				camera_trauma = min(camera_trauma + 0.2 + (0.1 * combo_count), 1.0)
+				
 				# If so, we squash it and bounce.
 				mob.squash()
 				target_velocity.y = bounce_impulse
 				# Play bounce sound
 				bounce_sound.play()
-				print("Bounced on mob! play was called.")
+				print("Bounced on mob! Combo: %d, Score: +%d" % [combo_count, score_value])
 				# Cancel dash on bounce to allow vertical movement
 				is_dashing = false
 				dash_timer = 0.0
@@ -141,6 +218,8 @@ func _physics_process(delta):
 				break
 			else:
 				# Hit from the side - player dies
+				combo_count = 0  # Reset combo on death
+				combo_timer = 0.0
 				hit.emit()
 				set_physics_process(false)  # Stop movement
 
@@ -168,3 +247,58 @@ func update_dash_gauge():
 		else:
 			# Red when not full (dash not ready)
 			gauge.add_theme_color_override("fill_color", Color(1.0, 0.0, 0.0))
+
+func calculate_score(combo: int) -> int:
+	# Exponential scoring: 10, 20, 40, 80, 160...
+	# With a cap at 10x multiplier to prevent infinite scaling
+	var multiplier = min(pow(2, combo - 1), 10)
+	return int(10 * multiplier)
+
+func spawn_score_popup(position: Vector3, score: int, combo: int):
+	if score_popup_scene:
+		var popup = score_popup_scene.instantiate()
+		get_tree().root.add_child(popup)
+		popup.initialize(position, score, combo)
+
+func update_camera(delta: float, horizontal_speed: float):
+	if not camera:
+		return
+	
+	# 1. Speed-based FOV
+	# var speed_ratio = horizontal_speed / speed
+	# var target_fov = base_fov + (max_fov - base_fov) * speed_ratio
+	# if is_dashing:
+	# 	target_fov = 95.0
+	# camera.fov = lerp(camera.fov, target_fov, fov_speed * delta)
+	
+	# # Base camera position (from scene)
+	var base_position = Vector3(0, 7.22042, 9)
+	
+	# 2. Camera shake
+	var shake_offset = Vector3.ZERO
+	if camera_trauma > 0:
+		camera_trauma = max(camera_trauma - trauma_decay * delta, 0)
+		var shake_amount = camera_trauma * camera_trauma
+		shake_offset = Vector3(
+			randf_range(-max_shake_offset, max_shake_offset) * shake_amount,
+			randf_range(-max_shake_offset, max_shake_offset) * shake_amount,
+			0
+		)
+		var shake_rotation = randf_range(-max_shake_rotation, max_shake_rotation) * shake_amount
+		camera.rotation.z = shake_rotation
+	else:
+		if abs(camera.rotation.z) > 0.001:
+			camera.rotation.z = lerp(camera.rotation.z, 0.0, 10.0 * delta)
+	
+	# 3. Camera tilt on turns (only when not shaking much)
+	if camera_trauma <= 0.1:
+		var turn_input = 0.0
+		if Input.is_action_pressed("move_right"):
+			turn_input += 1.0
+		if Input.is_action_pressed("move_left"):
+			turn_input -= 1.0
+		var target_tilt = turn_input * camera_tilt_amount
+		camera.rotation.z = lerp(camera.rotation.z, target_tilt, 5.0 * delta)
+	
+	# Apply shake offset to position
+	camera.position = base_position + shake_offset

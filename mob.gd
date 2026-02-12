@@ -25,7 +25,7 @@ func _physics_process(delta):
 			direction = direction.normalized()
 			
 			# Add randomness to direction
-			var random_angle = randf_range(-0.3, 0.3)
+			var random_angle = randf_range(-0.4, 0.4)
 			direction = direction.rotated(Vector3.UP, random_angle)
 			
 			velocity.x = direction.x * mob_speed
