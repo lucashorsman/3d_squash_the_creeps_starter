@@ -2,6 +2,12 @@
 
 [ext_resource type="Script" uid="uid://cnd3r3qyfy5so" path="res://player.gd" id="1_onrkg"]
 [ext_resource type="PackedScene" uid="uid://d0ypm0v45pwdv" path="res://art/player.glb" id="2_i3pqv"]
+[ext_resource type="AudioStream" path="res://art/sound/bounce.wav" id="3_bounce"]
+[ext_resource type="AudioStream" path="res://art/sound/dash.wav" id="4_dash"]
+[ext_resource type="AudioStream" path="res://art/sound/SHOThitHurt.wav" id="5_hit"]
+[ext_resource type="AudioStream" path="res://art/sound/shieldbreak.wav" id="6_shield"]
+[ext_resource type="AudioStream" path="res://art/sound/explosionbounce.wav" id="7_expbounce"]
+[ext_resource type="AudioStream" path="res://art/sound/jump.wav" id="8_jump"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_trail"]
 lifetime_randomness = 0.38
@@ -157,9 +163,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18503761, 0)
 shape = SubResource("CylinderShape3D_onrkg")
 
 [node name="BounceSound" type="AudioStreamPlayer" parent="." unique_id=593356528]
+stream = ExtResource("3_bounce")
 volume_db = -12.465
 
 [node name="DashSound" type="AudioStreamPlayer" parent="." unique_id=25746662]
-pitch_scale = 0.27
+stream = ExtResource("4_dash")
+volume_db = -15.0
+pitch_scale = 0.45
+
+[node name="HitSound" type="AudioStreamPlayer" parent="." unique_id=99887766]
+stream = ExtResource("5_hit")
+
+[node name="ShieldBreakSound" type="AudioStreamPlayer" parent="." unique_id=55443322]
+stream = ExtResource("6_shield")
+
+[node name="ExplosionBounceSound" type="AudioStreamPlayer" parent="." unique_id=11223344]
+stream = ExtResource("7_expbounce")
+volume_db = -12.0
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="." unique_id=33445566]
+stream = ExtResource("8_jump")
+volume_db = -10.0
 
 [connection signal="hit" from="." to="." method="_on_hit"]

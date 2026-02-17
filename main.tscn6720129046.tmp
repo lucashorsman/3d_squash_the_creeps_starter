@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://caialpklf52gg" path="res://art/galaxy-space-textured-background.jpg" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://b0jff4qe1mag6" path="res://hoop.tscn" id="3_272bh"]
 [ext_resource type="PackedScene" uid="uid://c7v8xax0y102" path="res://score_popup.tscn" id="4_score"]
-[ext_resource type="Texture2D" uid="uid://d2j1jiq43pkqs" path="res://Texturelabs_Grunge_200M.jpg" id="5_4c57u"]
+[ext_resource type="Texture2D" uid="uid://bxnk0ckosuwra" path="res://art/moon2.png" id="5_4c57u"]
 [ext_resource type="FontFile" uid="uid://cikhaab70hx2s" path="res://fonts/Kenney Future.ttf" id="5_lquwl"]
 [ext_resource type="Shader" uid="uid://dbtja0snub26k" path="res://crt.gdshader" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://dw8d4tb1gxewx" path="res://angel.tscn" id="9_kek77"]
@@ -36,9 +36,7 @@ size = Vector3(200, 2, 200)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
 albedo_texture = ExtResource("5_4c57u")
-uv1_scale = Vector3(2.945, 2.945, 2.945)
-texture_filter = 2
-stencil_flags = 2
+texture_filter = 0
 
 [sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
 material = SubResource("StandardMaterial3D_efxa6")
@@ -108,6 +106,7 @@ visible = false
 shape = SubResource("BoxShape3D_7dm0k")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1473857361]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1100235, -3.8146973e-06, 0.08751297)
 mesh = SubResource("BoxMesh_lquwl")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1957930455]
@@ -116,14 +115,25 @@ shadow_enabled = true
 
 [node name="Player" parent="." unique_id=370706727 instance=ExtResource("2_0xm2m")]
 speed = 18
+fall_acceleration = null
+jump_impulse = null
+bounce_impulse = null
+dash_speed = null
 dash_duration = 0.305
 dash_cooldown = 0.785
+acceleration = null
 friction = 10.085
 air_control = 0.805
+rotation_speed = null
+base_fov = null
 max_fov = 75.0
 fov_speed = 0.64
 camera_tilt_amount = 0.015
+trauma_decay = null
 max_shake_offset = 0.185
+max_shake_rotation = null
+is_dashing = null
+max_combo_time = null
 score_popup_scene = ExtResource("4_score")
 
 [node name="Camera3D" type="Camera3D" parent="Player" unique_id=1257396475]
@@ -226,7 +236,7 @@ offset_right = 1177.0
 offset_bottom = 634.0
 
 [node name="Hoop" parent="." unique_id=1980962526 instance=ExtResource("3_272bh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.790283, 34.138107, -10.158125)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0634418, -10.158129)
 visible = false
 
 [node name="Node3D" parent="." unique_id=792724776 instance=ExtResource("9_kek77")]

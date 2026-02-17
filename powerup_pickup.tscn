@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://chdl7wumcwyct"]
+
+[ext_resource type="Script" uid="uid://r6k5op7ri4h0" path="res://powerup_pickup.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://dw8d4tb1gxewx" path="res://angel.tscn" id="2_angel"]
+[ext_resource type="AudioStream" path="res://art/sound/pickupCoin.wav" id="3_coin"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pickup"]
+radius = 2.196
+
+[node name="PowerupPickup" type="Area3D" unique_id=395763605]
+collision_layer = 8
+script = ExtResource("1_script")
+
+[node name="Angel" parent="." unique_id=1476627532 instance=ExtResource("2_angel")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=635352211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8441843, 0)
+shape = SubResource("SphereShape3D_pickup")
+
+[node name="PickupSound" type="AudioStreamPlayer" parent="." unique_id=445566778]
+stream = ExtResource("3_coin")
+volume_db = -5.0

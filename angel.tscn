@@ -1,85 +1,9 @@
 [gd_scene format=3 uid="uid://dw8d4tb1gxewx"]
 
 [ext_resource type="PackedScene" uid="uid://bc1831l5w0e15" path="res://Smashing Elzing-Wluff.glb" id="1_jgnly"]
-[ext_resource type="Texture2D" uid="uid://egr7qfe18tq2" path="res://art/Textures/drill.png" id="2_8whfh"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5kjeu"]
 points = PackedVector3Array(0, 0, 0, 2, 4, 2, 2, 4, -2, -2, 4, 2, -2, 4, -2, 0, 8, 0)
-
-[sub_resource type="Animation" id="Animation_8whfh"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material:uv1_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_uvscroll"]
-resource_name = "uv_scroll"
-length = 10.0
-loop_mode = 1
-capture_included = true
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:material_override")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 2,
-"values": []
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MeshInstance3D:mesh:material:uv1_scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(-0.19999999, 9.966666),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(1, 1, 1), Vector3(900, 900, 900)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_uvlib"]
-_data = {
-&"RESET": SubResource("Animation_8whfh"),
-&"uv_scroll": SubResource("Animation_uvscroll")
-}
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gcmwr"]
-render_priority = 1
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0, 0, 0, 1)
-grow = true
-grow_amount = 0.01
-stencil_mode = 3
-stencil_flags = 1
-stencil_compare = 5
-metadata/_stencil_owned = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o5mku"]
-next_pass = SubResource("StandardMaterial3D_gcmwr")
-albedo_texture = ExtResource("2_8whfh")
-rim = 0.25
-rim_tint = 0.0
-texture_filter = 0
-stencil_mode = 1
-stencil_flags = 2
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_cl77g"]
-material = SubResource("StandardMaterial3D_o5mku")
 
 [node name="Node3D" type="Node3D" unique_id=792724776]
 
@@ -90,14 +14,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26266003, 4.7683716e-07, -
 shape = SubResource("ConvexPolygonShape3D_5kjeu")
 
 [node name="Tinkercad GLTF Scene" parent="StaticBody3D" unique_id=867617754 instance=ExtResource("1_jgnly")]
-transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, 0, 0, 0)
-
-[node name="StaticBody3D2" type="StaticBody3D" parent="." unique_id=1226725855]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="StaticBody3D2" unique_id=773049915]
-libraries/ = SubResource("AnimationLibrary_uvlib")
-autoplay = &"uv_scroll"
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2" unique_id=1612732763]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.84322286, 6.060398, 3.3059216)
-mesh = SubResource("CylinderMesh_cl77g")
+transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, -0.019277573, 0.01979065, 0.012709141)

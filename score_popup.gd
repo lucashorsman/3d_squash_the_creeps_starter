@@ -4,7 +4,7 @@ var score_value: int = 0
 var combo_count: int = 0
 
 func initialize(pos: Vector3, score: int, combo: int):
-	global_position = pos + Vector3(0, 1.5, 0)
+	global_position = pos + Vector3(0, 1.0, 0)
 	score_value = score
 	combo_count = combo
 	
@@ -19,21 +19,21 @@ func initialize(pos: Vector3, score: int, combo: int):
 	
 	# Set color based on combo level
 	if combo_count >= 5:
-		label.modulate = Color(1.0, 0.2, 1.0)  # Purple for high combos
+		label.modulate = Color(1.0, 0.2, 1.0) # Purple for high combos
 		label.outline_modulate = Color(0.5, 0.0, 0.5)
-		label.font_size = 72
+		label.font_size = 24
 	elif combo_count >= 3:
-		label.modulate = Color(1.0, 0.3, 0.0)  # Red-orange for medium combos
+		label.modulate = Color(1.0, 0.3, 0.0) # Red-orange for medium combos
 		label.outline_modulate = Color(0.5, 0.1, 0.0)
-		label.font_size = 64
+		label.font_size = 22
 	elif combo_count >= 2:
-		label.modulate = Color(1.0, 0.7, 0.0)  # Orange for small combos
+		label.modulate = Color(1.0, 0.7, 0.0) # Orange for small combos
 		label.outline_modulate = Color(0.5, 0.3, 0.0)
-		label.font_size = 56
+		label.font_size = 20
 	else:
-		label.modulate = Color(1.0, 1.0, 0.5)  # Yellow for single hits
+		label.modulate = Color(1.0, 1.0, 0.5) # Yellow for single hits
 		label.outline_modulate = Color(0.5, 0.5, 0.0)
-		label.font_size = 48
+		label.font_size = 16
 	
 	# Start the animation
 	animation_player.play("float_and_fade")

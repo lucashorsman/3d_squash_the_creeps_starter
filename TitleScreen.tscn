@@ -1,0 +1,208 @@
+[gd_scene format=3 uid="uid://dvd0qid54vcky"]
+
+[ext_resource type="Script" uid="uid://8b3rbqrqnkbb" path="res://TitleScreen.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://caialpklf52gg" path="res://art/galaxy-space-textured-background.jpg" id="2_sky"]
+[ext_resource type="FontFile" uid="uid://cikhaab70hx2s" path="res://fonts/Kenney Future.ttf" id="3_font"]
+[ext_resource type="PackedScene" uid="uid://dw8d4tb1gxewx" path="res://angel.tscn" id="4_tu0on"]
+[ext_resource type="PackedScene" uid="uid://bxk87h3yn8qy0" path="res://mob.tscn" id="5_mob"]
+[ext_resource type="PackedScene" uid="uid://ceuu150fmggvr" path="res://player.tscn" id="6_player"]
+[ext_resource type="Texture2D" uid="uid://d3ax7e4w3g8y5" path="res://art/keyboard_w_outline.png" id="7_w_out"]
+[ext_resource type="Texture2D" uid="uid://bq6gtsa5bu4om" path="res://art/keyboard_a_outline.png" id="8_a_out"]
+[ext_resource type="Texture2D" uid="uid://befb6m0tax4vs" path="res://art/keyboard_s_outline.png" id="9_s_out"]
+[ext_resource type="Texture2D" uid="uid://butqix430xwau" path="res://art/keyboard_d_outline.png" id="10_d_out"]
+[ext_resource type="Texture2D" uid="uid://dfio62inlu23d" path="res://art/keyboard_space_outline.png" id="11_sp_out"]
+[ext_resource type="Texture2D" uid="uid://gs82m2llce28" path="res://art/keyboard_shift_outline.png" id="12_sh_out"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_title"]
+panorama = ExtResource("2_sky")
+
+[sub_resource type="Sky" id="Sky_title"]
+sky_material = SubResource("PanoramaSkyMaterial_title")
+
+[sub_resource type="Environment" id="Environment_title"]
+background_mode = 2
+sky = SubResource("Sky_title")
+sky_rotation = Vector3(1.8727382, 3.4714599, 1.4486233)
+ambient_light_source = 3
+ambient_light_energy = 0.5
+tonemap_mode = 3
+volumetric_fog_density = 0.0356
+adjustment_enabled = true
+adjustment_contrast = 1.075
+adjustment_saturation = 1.4
+
+[sub_resource type="TextMesh" id="TextMesh_title"]
+text = "Crush em UP!!!"
+font = ExtResource("3_font")
+font_size = 72
+depth = 1.774
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c6htr"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+grow = true
+grow_amount = 0.01
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_title"]
+next_pass = SubResource("StandardMaterial3D_c6htr")
+albedo_color = Color(1.2604314, 0.13516928, 0.44024038, 1)
+metallic = 0.49
+metallic_specular = 0.0
+roughness = 0.56
+emission_energy_multiplier = 0.59
+heightmap_scale = 16.0
+stencil_mode = 1
+stencil_flags = 2
+
+[sub_resource type="TextMesh" id="TextMesh_instr"]
+text = "Press Enter to Start"
+font = ExtResource("3_font")
+font_size = 48
+depth = 0.08
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_instr"]
+metallic = 0.2
+roughness = 0.5
+
+[node name="TitleScreen" type="Node3D" unique_id=72815871]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=890935861]
+environment = SubResource("Environment_title")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2132691510]
+
+[node name="TitleLabel3D" type="MeshInstance3D" parent="." unique_id=1721659167]
+transform = Transform3D(1, 0, 0, 0, 0.9477684, -0.3189593, 0, 0.3189593, 0.9477684, 0.07062507, 1.6705606, -4.0847206)
+mesh = SubResource("TextMesh_title")
+surface_material_override/0 = SubResource("StandardMaterial3D_title")
+
+[node name="InstructionLabel3D2" type="Label3D" parent="." unique_id=1094084752]
+transform = Transform3D(1, 0, 0, 0, 0.9880004, -0.15445176, 0, 0.15445176, 0.9880004, -3.261657, 0.6469269, -6.2704067)
+pixel_size = 0.01
+font = ExtResource("3_font")
+
+[node name="InstructionLabel3D" type="MeshInstance3D" parent="." unique_id=111196666]
+transform = Transform3D(1, 0, 0, 0, 0.9924116, 0.12296064, 0, -0.12296064, 0.9924116, -0.8857118, -2.076706, -4)
+mesh = SubResource("TextMesh_instr")
+surface_material_override/0 = SubResource("StandardMaterial3D_instr")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=123456789]
+transform = Transform3D(-0.79419065, -0.6075034, -0.014176802, 0.454938, -0.6098844, 0.64890105, -0.40285575, 0.50890154, 0.7607408, -1.9668102, -8.438198, 4.290859)
+light_energy = 0.947
+shadow_enabled = true
+shadow_blur = 2.3
+
+[node name="CutsceneLight" type="OmniLight3D" parent="." unique_id=987654321]
+transform = Transform3D(0.8665224, 0, 0.49913824, 0, 1, 0, -0.49913824, 0, 0.8665224, -28.516893, 0.2803793, -12.728481)
+visible = false
+light_energy = 5.0
+omni_range = 15.0
+
+[node name="angel" parent="." unique_id=792724776 instance=ExtResource("4_tu0on")]
+transform = Transform3D(0.3859797, -0.29463595, 0.8741908, 0.170018, 0.954112, 0.24650472, -0.9067049, 0.053482413, 0.41836104, 6.900261, -4.6364145, -13.039499)
+
+[node name="CutsceneMob" parent="." unique_id=905015837 instance=ExtResource("5_mob")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.625274, -0.93107593, -12)
+
+[node name="CutscenePlayer" parent="." unique_id=384419483 instance=ExtResource("6_player")]
+transform = Transform3D(0.029334724, 0, -0.99956965, -0.54684573, 0.8370796, -0.016048476, 0.83671933, 0.5470812, 0.024555499, -2.3091345, -0.70253605, -12)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1644728002]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1810709434]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ColorRect" unique_id=375912415]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.47200003
+anchor_right = 0.5
+anchor_bottom = 0.47200003
+offset_left = -572.0
+offset_top = -173.85602
+offset_right = -32.544983
+offset_bottom = 249.18402
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Line1" type="Label" parent="CanvasLayer/ColorRect/VBoxContainer" unique_id=1379050801]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 32
+text = "they will not stop"
+horizontal_alignment = 1
+
+[node name="Line2" type="Label" parent="CanvasLayer/ColorRect/VBoxContainer" unique_id=1506198484]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 32
+text = "defend your home"
+horizontal_alignment = 1
+
+[node name="ControlsContainer" type="HBoxContainer" parent="CanvasLayer/ColorRect/VBoxContainer" unique_id=999888777]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="WASDGrid" type="GridContainer" parent="CanvasLayer/ColorRect/VBoxContainer/ControlsContainer" unique_id=888777666]
+layout_mode = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 3
+
+[node name="Padding" type="Control" parent="CanvasLayer/ColorRect/VBoxContainer/ControlsContainer/WASDGrid" unique_id=1147421608]
+layout_mode = 2
+
+[node name="KeyW" type="TextureRect" parent="CanvasLayer/ColorRect/VBoxContainer/ControlsContainer/WASDGrid" unique_id=11223344]
+layout_mode = 2
+texture = ExtResource("7_w_out")
+
+[node name="Padding2" type="Control" parent="CanvasLayer/ColorRect/VBoxContainer/ControlsContainer/WASDGrid" unique_id=1265674459]
+layout_mode = 2
+
+[node name="KeyA" type="TextureRect" parent="CanvasLayer/ColorRect/VBoxContainer/ControlsContainer/WASDGrid" unique_id=55667788]
+layout_mode = 2
+texture = ExtResource("8_a_out")
+
+[node name="KeyS" type="TextureRect" parent="CanvasLayer/ColorRect/VBoxContainer/ControlsContainer/WASDGrid" unique_id=99001122]
+layout_mode = 2
+texture = ExtResource("9_s_out")
+
+[node name="KeyD" type="TextureRect" parent="CanvasLayer/ColorRect/VBoxContainer/ControlsContainer/WASDGrid" unique_id=33445566]
+layout_mode = 2
+texture = ExtResource("10_d_out")
+
+[node name="SpaceKey" type="TextureRect" parent="CanvasLayer/ColorRect/VBoxContainer/ControlsContainer" unique_id=77889900]
+layout_mode = 2
+texture = ExtResource("11_sp_out")
+
+[node name="ShiftKey" type="TextureRect" parent="CanvasLayer/ColorRect/VBoxContainer/ControlsContainer" unique_id=66778899]
+layout_mode = 2
+texture = ExtResource("12_sh_out")
+
+[node name="Line3" type="Label" parent="CanvasLayer/ColorRect/VBoxContainer" unique_id=945650902]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 32
+text = "diamonds are blessings"
+horizontal_alignment = 1

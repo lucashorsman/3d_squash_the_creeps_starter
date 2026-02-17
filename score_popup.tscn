@@ -39,7 +39,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.15, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0.5, 0.5, 0.5), Vector3(1.4, 1.4, 1.4), Vector3(1, 1, 1)]
+"values": [Vector3(0.5, 0.5, 0.5), Vector3(1.2, 1.2, 1.2), Vector3(1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1"]
@@ -51,13 +51,14 @@ _data = {
 script = ExtResource("1_score_popup")
 
 [node name="Label3D" type="Label3D" parent="." unique_id=129179934]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 billboard = 1
 no_depth_test = true
 fixed_size = true
 texture_filter = 0
-font_size = 48
-outline_size = 8
+modulate = Color(1, 1, 1, 0)
+font_size = 16
+outline_size = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1715079847]
 libraries/ = SubResource("AnimationLibrary_1")

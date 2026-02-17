@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://dm6f7gyox8uyv"]
+
+[ext_resource type="Script" uid="uid://wimwwyybw1sw" path="res://game_over_screen.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0, 0, 0, 0.7)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="GameOverScreen" type="Control" unique_id=1869827425]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Panel" type="Panel" parent="." unique_id=642982479]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="TitleLabel" type="Label" parent="Panel" unique_id=1810213236]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -86.5
+offset_top = 20.0
+offset_right = 86.5
+offset_bottom = 65.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="Panel" unique_id=1913475872]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -40.0
+offset_right = 100.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "Score: 0"
+horizontal_alignment = 1
+
+[node name="HighScoreLabel" type="Label" parent="Panel" unique_id=2065563490]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -5.0
+offset_right = 100.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "High Score: 0"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="Panel" unique_id=1013449423]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_top = -70.0
+offset_right = 75.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "RESTART"

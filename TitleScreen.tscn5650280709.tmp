@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://dvd0qid54vcky"]
+
+[ext_resource type="Script" uid="uid://8b3rbqrqnkbb" path="res://TitleScreen.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://caialpklf52gg" path="res://art/galaxy-space-textured-background.jpg" id="2_sky"]
+[ext_resource type="FontFile" uid="uid://cikhaab70hx2s" path="res://fonts/Kenney Future.ttf" id="3_font"]
+[ext_resource type="PackedScene" uid="uid://dw8d4tb1gxewx" path="res://angel.tscn" id="4_tu0on"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_title"]
+panorama = ExtResource("2_sky")
+
+[sub_resource type="Sky" id="Sky_title"]
+sky_material = SubResource("PanoramaSkyMaterial_title")
+
+[sub_resource type="Environment" id="Environment_title"]
+background_mode = 2
+sky = SubResource("Sky_title")
+sky_rotation = Vector3(1.8727382, 3.4714599, 1.4486233)
+ambient_light_source = 3
+ambient_light_energy = 0.5
+tonemap_mode = 3
+volumetric_fog_density = 0.0356
+adjustment_enabled = true
+adjustment_contrast = 1.075
+adjustment_saturation = 1.4
+
+[node name="TitleScreen" type="Node3D" unique_id=72815871]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=890935861]
+environment = SubResource("Environment_title")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2132691510]
+
+[node name="TitleLabel3D" type="Label3D" parent="." unique_id=1721659167]
+transform = Transform3D(0.9993637, 0, 0.035666943, 0, 1, 0, -0.035666943, 0, 0.9993637, -0.90308785, 1.9236956, -4)
+pixel_size = 0.015
+modulate = Color(0.85, 0.53, 0.25, 1)
+text = "Crush em UP!!!"
+font = ExtResource("3_font")
+
+[node name="InstructionLabel3D2" type="Label3D" parent="." unique_id=1094084752]
+transform = Transform3D(1, 0, 0, 0, 0.9880004, -0.15445176, 0, 0.15445176, 0.9880004, -3.261657, 0.6469269, -6.2704067)
+pixel_size = 0.01
+font = ExtResource("3_font")
+
+[node name="InstructionLabel3D" type="Label3D" parent="." unique_id=111196666]
+transform = Transform3D(1, 0, 0, 0, 0.9880004, -0.15445176, 0, 0.15445176, 0.9880004, -0.8857118, -2.076706, -4)
+pixel_size = 0.01
+text = "Press Enter to Start"
+font = ExtResource("3_font")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=123456789]
+transform = Transform3D(-0.06317435, -0.5017742, -0.854047, 0.5070162, -0.77156866, 0.40365168, -0.8660192, -0.40588996, 0.29200074, 0, 10, 0)
+shadow_enabled = true
+shadow_bias = 0.184
+shadow_normal_bias = 7.782
+
+[node name="angel" parent="." unique_id=792724776 instance=ExtResource("4_tu0on")]
+transform = Transform3D(0.4145185, 0, -0.91004086, 0, 1, 0, 0.91004086, 0, 0.4145185, 1.7377901, -4.6364145, -10.952855)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1644728002]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1810709434]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ColorRect" unique_id=375912415]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Line1" type="Label" parent="CanvasLayer/ColorRect/VBoxContainer" unique_id=1379050801]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 32
+text = "they will not stop"
+horizontal_alignment = 1
+
+[node name="Line2" type="Label" parent="CanvasLayer/ColorRect/VBoxContainer" unique_id=1506198484]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 32
+text = "defend your home"
+horizontal_alignment = 1
+
+[node name="Line3" type="Label" parent="CanvasLayer/ColorRect/VBoxContainer" unique_id=945650902]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 32
+text = "diamonds are blessings"
+horizontal_alignment = 1
