@@ -251,7 +251,7 @@ func _ai_lurker(delta):
 		velocity.z = lerp(velocity.z, charge_vel.z, lurker_turn_speed * delta)
 		
 		# Stop charging if close to player and player is grounded
-		if dist < 3.0 and player.is_on_floor():
+		if dist < 5.0 and player.is_on_floor():
 			is_charging = false
 	else:
 		# Idle: maintain distance. If too close, back away. If too far, drift closer.

@@ -1,7 +1,8 @@
 extends Node
 
 @export var mob_scene: PackedScene
-@export var min_spawn_distance = 5.0
+@export var min_spawn_distance = 7.0
+@export var max_spawn_distance = 50.0
 @export var hoop_scene: PackedScene
 @export var powerup_pickup_scene: PackedScene = preload("res://powerup_pickup.tscn")
 @export var powerup_ui_scene: PackedScene = preload("res://powerup_ui.tscn")
@@ -63,7 +64,7 @@ func _on_mob_timer_timeout():
 		# Check distance to player (only X and Z, ignore Y)
 		var distance = Vector2(spawn_position.x - player_position.x, spawn_position.z - player_position.z).length()
 		
-		if distance >= min_spawn_distance:
+		if distance >= min_spawn_distance  and distance <= max_spawn_distance:
 			break
 		
 		attempts += 1
@@ -160,8 +161,32 @@ func _on_powerup_timer_timeout():
 		return
 	
 	# Spawn powerup pickup
-	var spawn_pos = Vector3(randf_range(-90, 90), 1, randf_range(-90, 90))
+	# Try to find a spawn location that isn't too close to existing pickups
+	## Spawns a power-up at a random position, ensuring it doesn't spawn too close to existing pickups.
+	## Generates random coordinates within the play area and checks distance against all current pickups.
+	## If a pickup is found within 15 units, the loop retries with a new random position.
+	## Otherwise, the pickup is placed at the generated spawn position.
+	var spawn_pos = Vector3.ZERO
 	var pickup = powerup_pickup_scene.instantiate()
+	var max_attempts = 50
+	var attempts = 0
+	
+	while attempts < max_attempts:
+		print("Finding spawn position for powerup...")
+		spawn_pos = Vector3(randf_range(-90, 90), 1, randf_range(-90, 90))
+		var valid_position = true
+		
+		for pickup1 in current_pickups:
+			var dist = Vector2(spawn_pos.x - pickup1.position.x, spawn_pos.z - pickup1.position.z).length()
+			if dist < 15.0:
+				valid_position = false
+				break # Too close to this pickup, try again
+		
+		if valid_position:
+			break # Found a good position!
+		
+		attempts += 1
+			
 	pickup.add_to_group("powerup_pickups")
 	pickup.position = spawn_pos
 	add_child(pickup)
